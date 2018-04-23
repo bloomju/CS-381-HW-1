@@ -2,20 +2,16 @@ module HW1 where
 
 -- Exercise 1
 
+data Cmd =  Pen Mode
+        |   MoveTo (Pos, Pos)
+        |   Def String Pars Cmd
+        |   Call String Vals
+        |   MultiCMD Cmd Cmd
 
-
-data cmd =  pen mode
-        |   moveto (pos, pos)
-        |   def String pars cmd
-        |   call String vals
-        |   multiCMD cmd cmd
-
-data mode = up | down
-data pos = num Int | name String
-data pars = multiPars String pars | singlePar String
-data vals = multiVals Int vals | singleVal Int
-
-
+data Mode = Up | Down
+data Pos = Num Int | Name String
+data Pars = MultiPars String Pars | SinglePar String
+data Vals = MultiVals Int Vals | SingleVal Int
 
 
 
