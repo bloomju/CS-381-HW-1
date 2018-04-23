@@ -13,5 +13,9 @@ data Pos = Num Int | Name String
 data Pars = MultiPars String Pars | SinglePar String
 data Vals = MultiVals Int Vals | SingleVal Int
 
-
-
+vector (x1, y1) (x2, y2) = 
+                Def "vector" (MultiPars "p1" (SinglePar "p2"))
+                (MultiCMD (Pen Up) 
+                (MultiCMD (MoveTo (Num x1, Num y1))
+                (MultiCMD (Pen Down)
+                (MoveTo (Num x2, Num y2)))))
