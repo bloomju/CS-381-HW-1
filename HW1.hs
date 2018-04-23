@@ -1,4 +1,4 @@
-module hw1 where
+module HW1 where
 
 -- Exercise 1
 
