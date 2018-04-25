@@ -34,7 +34,20 @@ steps n =
             (MultiCmd (MoveTo(Num (n-1), Num (n-1)))
             (steps (n-1)) ))))
 
+-- Exercise 3
 
+-- Part (A).  Apply Multiply[Apply Negate[Apply Add [Num 3, Num 4]], Num 7]
+
+
+--Part (B).  One of the disadvantages of the second form of syntax is that it is less clear how many expressions you can use with each operation.
+--For example in the first abstract syntax we know that each operation expects exactly two different expressions, while for the second abstract syntax we can use as
+--many expressions as we want because it is using a list rather than a defined amount of expressions.  Not only could you use more than 2 expressions but you could 
+--also use less than two expressions, which doesn't make sense when attempting to multiply a single Int. This causes a bit of confusion when attempting to represent
+--expressions using this syntax.  Another disadvantage of the second abstract syntax is that it is not as easy to use as the first abstract syntax in order to write expressions 
+--because it ends up using two seperate data type.  This makes it so we have to use two data types in each expression rather than one which makes representing an entire 
+--expression in this syntax.  The only advantage from using the second data type is that you are not restricted to only two expressions per operator.  
+
+translate :: Expr -> Exp 
 
 
 
