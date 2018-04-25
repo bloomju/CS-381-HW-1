@@ -39,17 +39,21 @@ steps n =
 
 -- Part A -- 
 
-data Number = Number Int Int -- First Int indicates Gate, 2nd Int indicates Input 
+-- data type shouldn't be used for Constructor name
+data Number = Num Int Int -- First Int indicates Gate, 2nd Int indicates Input 
 
-data Pair = Pair Int GateFN -- Int indicates Gate number, GateFN indicates type
+data Pair = Pr Int GateFN -- Int indicates Gate number, GateFN indicates type
 
-data Circuit = Circuit Gates Links 
+data Circuit = Crct Gates Links 
 
-data Gates = Gate Pair | Gates | Empty
+data Gates = Gt Pair | Gates | Empty
 
 data GateFN = And | Or |  Xor | Not deriving Show
 
-data Links = From Number Number | Links | None 
+
+--Links can't be an option for the data type, it's a parameter for the constructor From. 
+--Take a look at the assignment, they're separated by a comma.
+data Links = From Number Number Links | None 
 
 -- Part B -- 
 
@@ -71,7 +75,8 @@ printGates (Gate pair gates) = show pair ++ ";\n" ++ printGates gates
 
 printLinks:: Links -> String -- Prints links 
 printLinks None = ""
-printLinks (From num1 num2) = "From " ++ printNumber num1 ++ " to " ++ printNumber num2 ++ ";\n" ++ printLinks links
+--Fixed in order to reflect change in definition for From constructor
+printLinks (From num1 num2 links1) = "From " ++ printNumber num1 ++ " to " ++ printNumber num2 ++ ";\n" ++ printLinks links1
 
 printCircuit:: Circuit -> String -- Prints the circuit representation
 printCircuit (Circuit gates links) = printGates gates ++ printLinks links
