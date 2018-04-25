@@ -34,6 +34,51 @@ steps n =
             (MultiCmd (MoveTo(Num (n-1), Num (n-1)))
             (steps (n-1)) ))))
 
+
+-- Exercise 2
+
+-- Part A -- 
+
+data Number = Number Int Int -- First Int indicates Gate, 2nd Int indicates Input 
+
+data Pair = Pair Int GateFN -- Int indicates Gate number, GateFN indicates type
+
+data Circuit = Circuit Gates Links 
+
+data Gates = Gate Pair | Gates | Empty
+
+data GateFN = And | Or |  Xor | Not deriving Show
+
+data Links = From Number Number | Links | None 
+
+-- Part B -- 
+
+halfAdder = Circuit (Gate 1 Xor (Gate 2 And Empty)) (From (Number 1 1) (Number 2 1) (From (Number 1 2) (Number 2 2) None))
+
+-- Part C -- 
+
+-- Implements a pretty printer for the circuit (i.e. prints out the whole circuit)
+
+printNumber:: Number -> String -- Prints out a gate type and input 
+printNumber (Number x y) = show x ++ "." ++ show y
+
+printPair:: Pair -> String -- Prints out a gate number and type
+printPair (Pair gnum gtype) = show gnum ++ ":" ++ show gtype
+
+printGates:: Gates -> String -- Prints out gates 
+printGates Empty = ""
+printGates (Gate pair gates) = show pair ++ ";\n" ++ printGates gates
+
+printLinks:: Links -> String -- Prints links 
+printLinks None = ""
+printLinks (From num1 num2) = "From " ++ printNumber num1 ++ " to " ++ printNumber num2 ++ ";\n" ++ printLinks links
+
+printCircuit:: Circuit -> String -- Prints the circuit representation
+printCircuit (Circuit gates links) = printGates gates ++ printLinks links
+
+
+
+
 -- Exercise 3
 
 -- Part (A).  Apply Multiply[Apply Negate[Apply Add [Num 3, Num 4]], Num 7]
