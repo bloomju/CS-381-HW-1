@@ -1,17 +1,26 @@
+-- CS381, Spring 2018
+-- Assignment 1
+-- Justin Bloom, David Jansen, Meghana Kolasani, Rushil Vora
+
 module HW1 where
 
--- Exercise 1
+-- Exercise 1 -- 
+
+-- Part (A) --
 
 data Cmd =  Pen Mode
         |   MoveTo (Pos, Pos)
         |   Def String Pars Cmd
         |   Call String Vals
         |   MultiCmd Cmd Cmd
+        deriving Show
 
-data Mode = Up | Down
-data Pos = Num Int | Name String
-data Pars = MultiPars String Pars | SinglePar String
-data Vals = MultiVals Int Vals | SingleVal Int
+data Mode = Up | Down deriving Show
+data Pos = Num Int | Name String deriving Show 
+data Pars = MultiPars String Pars | SinglePar String deriving Show
+data Vals = MultiVals Int Vals | SingleVal Int deriving Show
+
+-- Part (B) --
 
 vector :: (Pos, Pos) -> (Pos, Pos) -> Cmd
 
@@ -21,6 +30,8 @@ vector (x1, y1) (x2, y2) =
                 (MultiCmd (MoveTo (x1, y1))
                 (MultiCmd (Pen Down)
                 (MoveTo (x2, y2) ))))
+
+-- Part (C) -- 
 
 steps :: Int -> Cmd
 
@@ -35,56 +46,46 @@ steps n =
             (steps (n-1)) ))))
 
 
--- Exercise 2
+-- Exercise 2 -- 
 
--- Part A -- 
+-- Part (A) -- 
 
--- data type shouldn't be used for Constructor name
-data Number = Num Int Int -- First Int indicates Gate, 2nd Int indicates Input 
+data Number = Gnum Int Int deriving Show-- First Int indicates Gate, 2nd Int indicates Input 
 
-data Pair = Pr Int GateFN -- Int indicates Gate number, GateFN indicates type
+data Circuit = Crct Gates Links deriving Show
 
-data Circuit = Crct Gates Links 
-
-data Gates = Gt Pair | Gates | Empty
+data Gates = Gt Int GateFN Gates | Empty deriving Show
 
 data GateFN = And | Or |  Xor | Not deriving Show
 
+data Links = From Number Number Links | None deriving Show 
 
---Links can't be an option for the data type, it's a parameter for the constructor From. 
---Take a look at the assignment, they're separated by a comma.
-data Links = From Number Number Links | None 
+-- Part (B) -- 
 
--- Part B -- 
+halfAdder = Crct (Gt 1 Xor (Gt 2 And Empty)) (From (Gnum 1 1) (Gnum 2 1) (From (Gnum 1 2) (Gnum 2 2) None))
 
-halfAdder = Circuit (Gate 1 Xor (Gate 2 And Empty)) (From (Number 1 1) (Number 2 1) (From (Number 1 2) (Number 2 2) None))
-
--- Part C -- 
+-- Part (C) -- 
 
 -- Implements a pretty printer for the circuit (i.e. prints out the whole circuit)
 
 printNumber:: Number -> String -- Prints out a gate type and input 
-printNumber (Number x y) = show x ++ "." ++ show y
-
-printPair:: Pair -> String -- Prints out a gate number and type
-printPair (Pair gnum gtype) = show gnum ++ ":" ++ show gtype
+printNumber (Gnum x y) = show x ++ "." ++ show y
 
 printGates:: Gates -> String -- Prints out gates 
 printGates Empty = ""
-printGates (Gate pair gates) = show pair ++ ";\n" ++ printGates gates
+printGates (Gt gnum gtype gates) = show gnum ++ ":" ++ show gtype ++ ";\n" ++ printGates gates
 
 printLinks:: Links -> String -- Prints links 
 printLinks None = ""
---Fixed in order to reflect change in definition for From constructor
 printLinks (From num1 num2 links1) = "From " ++ printNumber num1 ++ " to " ++ printNumber num2 ++ ";\n" ++ printLinks links1
 
 printCircuit:: Circuit -> String -- Prints the circuit representation
-printCircuit (Circuit gates links) = printGates gates ++ printLinks links
+printCircuit (Crct gates links) = printGates gates ++ printLinks links
 
 
 
 
--- Exercise 3
+-- Exercise 3 -- 
 
 -- Part (A).  Apply Multiply[Apply Negate[Apply Add [Num 3, Num 4]], Num 7]
 
@@ -97,17 +98,20 @@ printCircuit (Circuit gates links) = printGates gates ++ printLinks links
 --because it ends up using two seperate data type.  This makes it so we have to use two data types in each expression rather than one which makes representing an entire 
 --expression in this syntax.  The only advantage from using the second data type is that you are not restricted to only two expressions per operator.  
 
+-- Part (C) --
+
 data Expr = N Int
             | Plus Expr Expr
             | Times Expr Expr
-            | Neg Expr
+            | Neg Expr 
+            deriving Show
 
-data Op = Add | Multiply | Negate
+data Op = Add | Multiply | Negate deriving Show
 
 data Exp = NN Int
-        | Apply Op [Exp]
+        | Apply Op [Exp] deriving Show 
 
-translate :: Expr -> Exp 
+translate:: Expr -> Exp 
 
 translate (N x) = (NN x)
 
