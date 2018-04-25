@@ -47,8 +47,22 @@ steps n =
 --because it ends up using two seperate data type.  This makes it so we have to use two data types in each expression rather than one which makes representing an entire 
 --expression in this syntax.  The only advantage from using the second data type is that you are not restricted to only two expressions per operator.  
 
+data Expr = N Int
+            | Plus Expr Expr
+            | Times Expr Expr
+            | Neg Expr
+
+data Op = Add | Multiply | Negate
+
+data Exp = NN Int
+        | Apply Op [Exp]
+
 translate :: Expr -> Exp 
 
+translate (N x) = (NN x)
 
+translate (Plus e1 e2) = Apply Add [translate e1,translate e2]
 
+translate (Times e1 e2) = Apply Multiply [translate e1, translate e2]
 
+translate (Neg e1) = Apply Negate [translate e1]
