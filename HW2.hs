@@ -1,6 +1,6 @@
 -- CS381, Spring 2018
--- -- Assignment 1
--- -- Justin Bloom, David Jansen, Meghana Kolasani, Rushil Vora
+-- Assignment 1
+-- Justin Bloom, David Jansen, Meghana Kolasani, Rushil Vora
 
 module HW2 where
 
