@@ -12,26 +12,42 @@ data Cmd = LD Int
 	 | ADD
 	 | MULT
 	 | DUP
+	 | DEF String Prog
+	 | CALL String
 	 deriving Show
 
 type Stack = [Int]
 type D = Stack -> Stack
 
-{-
 semCmd :: Cmd -> D
 
-semCmd (LD x) s = x:s
-semCmd (ADD x:y:xs) = (x+y):xs
---semCmd (ADD) for fewer than 2 elements
-semCmd (MULT x:y:xs) = (x*y):xs
---semCMD (MULT) for fewer than 2 elements
-semCmd (DUP x:xs) = x:x:xs
---Error condition for DUP?
+semCmd (LD x) xs = x:xs
+semCmd ADD (x:y:xs) = (x+y):xs
+semCmd MULT (x:y:xs) = (x*y):xs
+semCmd DUP (x:xs) = x:x:xs
 
 sem :: Prog -> D
-
+sem [] s = s
 sem (x:xs) s = sem xs (semCmd x s)
--}
+
+test :: Prog -> Stack
+test x = sem x []
+test1 = [LD 3, DUP, ADD, DUP, MULT] --should be 36
+test2 = [LD 3, ADD] 
+test3 = [] --should return empty stack
+
+-- Exercise 2 --
+
+-- Part A --
+
+-- Extended the syntax in exercise 1
+
+-- Part B --
+
+type Macros = [(String, Prog)]
+type PState = (Macros, Stack)
+
+-- Part C --
 
 
 
