@@ -72,9 +72,6 @@ semS (Seq c1 c2) (m, x, y) = ((m'', a', b'), l1++l2)
     where   ((m'',a',b'), l1) = semS c1 (m',a,b) 
             ((m',a,b), l2) = semS c2 (m,x,y)
  
+sem' :: LogoCmd -> Lines
 
-
-
---sem' :: LogoCmd -> Lines
-
-
+sem' cc = ll where (_,ll) = semS cc (Up, 0,0)
