@@ -24,7 +24,7 @@ semCmd :: Cmd -> D
 semCmd (LD x) xs = x:xs
 semCmd ADD (x:y:xs) = (x+y):xs
 semCmd MULT (x:y:xs) = (x*y):xs
-semCmd DUP (x:xs) = x:x:xs
+semCmd DUP (x:xs) = x:xs
 
 sem :: Prog -> D
 sem [] s = s
@@ -32,9 +32,9 @@ sem (x:xs) s = sem xs (semCmd x s)
 
 test :: Prog -> Stack
 test x = sem x []
-test1 = [LD 3, DUP, ADD, DUP, MULT] --should be 36
+test1 = [LD 3, DUP, ADD, DUP, MULT]
 test2 = [LD 3, ADD] 
-test3 = [] --should return empty stack
+test3 = [] 
 
 -- Exercise 2 --
 
@@ -46,10 +46,18 @@ test3 = [] --should return empty stack
 
 type Macros = [(String, Prog)]
 type PState = (Macros, Stack)
+type P = PState -> PState
 
 -- Part C --
 
+semCmdM :: Cmd -> P
 
+semCmdM (LD x) (m, xs) = (m, x:xs)
+semCmdM (ADD)  (m, x:y:xs) = (m, (x+y):xs)
+semCmdM (MULT) (m, x:y:xs) = (m, (x*y):xs)
+semCmdM (DUP)  (m, x:xs) = (m, x:xs)
+--semCmdM DEF
+--semCmdM CALL
 
 -- Exercise 3 --
 data LogoCmd = Pen Mode
