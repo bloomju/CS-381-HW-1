@@ -50,14 +50,15 @@ type P = PState -> PState
 
 -- Part C --
 
-semCmdM :: Cmd -> P
+semCmd2 :: Cmd -> P
 
-semCmdM (LD x) (m, xs) = (m, x:xs)
-semCmdM (ADD)  (m, x:y:xs) = (m, (x+y):xs)
-semCmdM (MULT) (m, x:y:xs) = (m, (x*y):xs)
-semCmdM (DUP)  (m, x:xs) = (m, x:xs)
---semCmdM DEF
---semCmdM CALL
+semCmd2 (LD x) (m, xs)     = (m, x:xs)
+semCmd2 (ADD)  (m, x:y:xs) = (m, (x+y):xs)
+semCmd2 (MULT) (m, x:y:xs) = (m, (x*y):xs)
+semCmd2 (DUP)  (m, x:xs)   = (m, x:xs)
+semCmd2 (DEF n p) (m, xs)  = ((n,p):m,xs)
+semCmd2 (CALL n) (m, xs)   = 
+semCmd2 _ _ 			   = Nothing
 
 -- Exercise 3 --
 data LogoCmd = Pen Mode
