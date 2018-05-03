@@ -57,21 +57,7 @@ semCmd2 (ADD)  (m, x:y:xs) = (m, (x+y):xs)
 semCmd2 (MULT) (m, x:y:xs) = (m, (x*y):xs)
 semCmd2 (DUP)  (m, x:xs)   = (m, x:xs)
 semCmd2 (DEF n p) (m, xs)  = ((n,p):m,xs)
-semCmd2 (CALL n) (xs, m) = sem (Exists n m) (xs, m) --Uses sem to iterate
-
---Checking to see if the name of the macro even exists.
-Exists :: String -> m -> Prog
-Exists n m = RetMac(Index n m) m
-
---This is using the find index function which is part of the data.lists library Reference: https://www.haskell.org/hoogle/?hoogle=findIndex. 
-Index :: String -> m -> Int
-Index n m  = findIndex(a -> fst a == n) m
-
---This is used to return the macro at a certain index in the list.  !! takes a list and an index and returns the item at that index.  
---Reference: https://stackoverflow.com/questions/24421934/double-exclamation-marks-in-haskell/24422022#24422022
-RetMac :: Int -> m -> Prog
-RetMac i m = snd(m !! i) 
-
+semCmd2 (CALL n) (xs, m) 
 
 -- Exercise 3 --
 data LogoCmd = Pen Mode
