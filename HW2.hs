@@ -44,6 +44,9 @@ test3 = []
 
 -- Part B --
 
+
+--type Prog = [Cmd]
+
 type Macros = [(String, Prog)]
 type PState = (Macros, Stack)
 type P = PState -> PState
@@ -57,7 +60,7 @@ semCmd2 (ADD)  (m, x:y:xs) = (m, (x+y):xs)
 semCmd2 (MULT) (m, x:y:xs) = (m, (x*y):xs)
 semCmd2 (DUP)  (m, x:xs)   = (m, x:xs)
 semCmd2 (DEF n p) (m, xs)  = ((n,p):m,xs)
-semCmd2 (CALL n) (xs, m) 
+semCmd2 (CALL n) (m, xs) =  (m, sem pp xs) where _:(n,pp):_ = m
 
 -- Exercise 3 --
 data LogoCmd = Pen Mode
