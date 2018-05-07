@@ -48,11 +48,11 @@ rankC DUP  = (1, 1)
 rankC INC  = (1, 1)
 rankC SWAP = (2, 2)
 rankC (POP x) = (x, 0)
+-- commented out for testing exercise 3
+--rankP :: Prog -> Maybe Rank
 
-rankP :: Prog -> Maybe Rank
-
-
-rank :: Prog -> Rank -> Maybe Rank
+-- commented out for testing exercise 3
+--rank :: Prog -> Rank -> Maybe Rank
 
 -- Part B --
 
@@ -72,13 +72,23 @@ type BBox = (Int, Int)
 --Exercise 3 --
 
 -- Part A --
-
+-- (1) the type of f is [a] -> a -> [a]
+--     the type of g is [a] -> b -> [b]
+-- (2) f evaluates x as some array, so x is of type [a]. f can either return
+--      [y] or x, which must be the same type. So the type of y must be a.
+--     g evaluates x as some array, so x is of type [a]. g can either return
+--      [y] or [], which means that y can be anything, so y is of type b.
+-- (3) g is the more general type because x and y can be any type
+-- (4) they have different types because static typing restricts x and y to be
+--      related in type in f but not in y.
 -- Part B --
+h x y = x++[i | i <- (map snd y)] 
 
 -- Part C --
-
+k ff gg = ff (gg ff)
 -- Part D --
-
-
-
-
+-- This simply can not be done, if a function were to be defined at all it
+-- can't just return anything, it has to return something. The return type of
+-- a function can't be general, it must have some dependency on the type of 
+-- something else, whether it's the type of something concrete or the type of
+-- one of the variables. 
