@@ -1,6 +1,6 @@
 -- CS381, Spring 2018
 -- Assignment 3
--- Justin Bloom, David Jansen, Meghana Kolasani, Rushil Vora
+-- Justin Bloom, Meghana Kolasani, Rushil Vora
 
 module HW3 where
 
@@ -67,7 +67,30 @@ type BBox = (Int, Int)
 
 -- Part A --
 
+bbox :: Shape -> BBox
+
+bbox X = (1,1)
+bbox (TD s1 s2) | s1x >= s2x = (s1x, s1y+s2y) | s1x < s2x = (s2x, s1y + s2y)
+                where (s1x, s1y) = bbox s1
+		      (s2x, s2y) = bbox s2
+
+bbox (LR s1 s2) | s1y >= s2y = (s1x+s2x, s1y) | s1y < s2y = (s2x+s1x, s2y)
+                where (s1x, s1y) = bbox s1
+                      (s2x, s2y) = bbox s2
+
+bbox_ = error "you goofed"
+
 -- Part B --
+
+
+rect :: Shape -> Maybe BBox
+rect X = Just(1,1)
+
+rect (TD s1 s2) = case(s1x == s2x) of
+		  True -> Just(s1x, s1y+s2y)
+		  False -> Nothing
+		  where (s1x, s1y) = bbox s1
+		  	(s2x, s2y) = bbox s2
 
 --Exercise 3 --
 
