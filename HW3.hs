@@ -48,13 +48,33 @@ rankC DUP  = (1, 1)
 rankC INC  = (1, 1)
 rankC SWAP = (2, 2)
 rankC (POP x) = (x, 0)
--- commented out for testing exercise 3
---rankP :: Prog -> Maybe Rank
 
--- commented out for testing exercise 3
---rank :: Prog -> Rank -> Maybe Rank
+rankP :: Prog -> Maybe Rank
+
+rankP xs = rank xs 0 -- Give rank 0 initially
+
+rank :: Prog -> Rank -> Maybe Rank
+
+rank [] r | r >= 0 = Just r
+rank (x:xs) r | uf >=0 = rank xs (uf+m)
+		where (n, m) = rankC x 
+		      uf = r - n
+rank _ _ = Nothing
 
 -- Part B --
+
+data Type = S Stack | Error
+		    deriving Show
+
+typeSafe :: Prog -> Bool
+typeSafe t = (rankP t) /= Nothing
+
+semStatTC :: Prog -> Type
+
+semStatTC x | typeSafe x = S (sem x []) | otherwise = Error  
+
+--Question: what is the new type of the function sem and why can the function defn be simpliied to have this type?
+--Answer: The new type of the function sem is Prog -> D. The function definition can be simplified to have this type because the type errors are handled. 
 
 -- Exercise 2 --
 
