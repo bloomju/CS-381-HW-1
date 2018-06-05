@@ -47,3 +47,10 @@ flat([C|D], L, F) :- flat(C, L1, F), flat(F, L, L1).
 flat(C, F, [C|F]) :- not(is_list(C)).
 
 % Part (c)
+
+project(_,[],[]).
+project([],_,[]).
+project(1,[X|_], X) :- !.
+project(N,[_|L] X) :- not(is_list(N)), N1 is N-1, project(N1, L, X).
+project([N1|N], L, [X1|XR]) :- project(N1, L, X1), project(N, L, XR).
+projectDriver(A, B, M) :- project(A, B, L), flat(L, M).
