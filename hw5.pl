@@ -41,6 +41,9 @@ cdup([N|X], [N|Y]) :- cdup(X, Y), not(member(N, X)).
 cdup([N|X], Y) :- cdup(X, Y), member(N, X).
 
 % Part (b)
-
+flat(L, F) :- flat(L, [], F).
+flat([], F, F).
+flat([C|D], L, F) :- flat(C, L1, F), flat(F, L, L1).
+flat(C, F, [C|F]) :- not(is_list(C)).
 
 % Part (c)
